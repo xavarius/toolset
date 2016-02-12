@@ -1,0 +1,39 @@
+[alias]
+	st = status
+
+	br = branch
+	bd = branch -D
+
+	pl = pull
+
+	ch = checkout
+	chb = checkout -b
+	m = checkout master
+
+	d = diff
+	d1 = diff HEAD^1
+
+	sh = stash
+	sp = stash pop
+
+	c = commit -m
+	ca = commit --amend
+
+	rmaster = rebase -i master
+	rdev = rebase -i develop
+	rr = rebase -i release
+
+	pmaster = push origin HEAD:refs/for/master
+	prelease = push origin HEAD:refs/for/release
+	pdevelop = push origin HEAD:refs/for/develop
+
+	l1 = log -1 HEAD
+	ls = log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate
+	ll = log --pretty=format:\"%C(yellow)%h\\\\ %ad%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --date=relative
+[user]
+	email = maciekButYouMust@changeit.com
+	name = Maciej Malak
+[merge]
+	tool = meld
+[color]
+	ui = auto
