@@ -1,14 +1,14 @@
 #!/bin/bash
 
-usage() { echo "apkInstaller [-a|-n <amount> |-s <serialNumber> |-d <directory>]"; exit 1; }
+usage() { echo "Usage: apkInstaller [-a|-n <amount> |-s <serialNumber> |-d <directory>]"; exit 1; }
 
-man() { #todo: add "man" page
+simpleMan() { #todo: add "man" page
 	echo "man page"
 	exit 0;
 }
 
-if [ $1 = "man" ]; then
-	man
+if [ "$1" = "man" ]; then
+	simpleMan
 fi
 
 ERROR_FLAG=0
@@ -17,27 +17,24 @@ AMOUNT_APPS_TO_INSTALL=$MAX_AMOUNT_OF_APP
 
 # args: apps amount | directory | serial number
 install() {
-	
-	echo "amout $1  dir $2 serial $3"
-	exit 0;
 	echo "Installing... on device $3"
 	
-	x=0
+	x=1
 	for i in $( find $2 -name "*.apk" ); do
-       		`adb install -dg -s $3 $i`
-       		if [ "$((x++))" -ge "$1" ]; then 
+       		adb -s $3 install -dg $i
+       		if [ $x -ge "$1" ]; then
           		break;
-       		fi  
+       		fi
+		((x++))
     	done
-
-	`clear`
-	echo "Installed $1 apps on device $3";
+	echo "Installed $x apps on device $3";
 }
 
 # args: apps amout | directory
 install_On_All_Devices() {
-	echo "all devices"
-	install $1 $2 $3
+	for SERIAL_NBR in $(adb devices | tail -n +2 | cut -sf 1); do
+		install $1 $2 $SERIAL_NBR
+	done
 }
 
 while getopts ":an:s:d:" OPTION; do
@@ -66,17 +63,19 @@ done
 #parse input options and args : validate
 
 if [ ! -z "${a}" ] && [ ! -z "${s}" ]; then
-	echo "Install to ALL (-a) or on device with serial number (-s <serialNbr>)" 
+	echo "ERROR: Install to all (-a) or by serial number (-s)." 
 	ERROR_FLAG=1
 fi
 
-if [[ -z "${d}" ]] || [[ ! -d "${d}" ]]; then
-	echo "Given dir is not a dir/exist or you have not provided -d <dir>"
+if [[ ! -z "${d}" ]] && [[ ! -d "${d}" ]]; then
+	echo "ERROR: Provide directory as arg of -d option."
 	ERROR_FLAG=1
-fi 
+elif [[ -z "${d}" ]]; then
+	d='.' 
+fi
 
 if [ ! -z "${n}" ] && [[ ${n} -le 0 ]]; then
-	echo "Install more than 0 apps"
+	echo "ERROR: Install more than 0 apps"
 	ERROR_FLAG=1
 elif [ ! -z "${n}" ]; then 
 	AMOUNT_APPS_TO_INSTALL=$n
@@ -94,5 +93,5 @@ else
 	install_On_All_Devices $AMOUNT_APPS_TO_INSTALL ${d}
 fi
 
-echo "Work is done";
+#all work is done!
 exit 0
