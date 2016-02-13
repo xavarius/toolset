@@ -1,19 +1,19 @@
 #!/bin/bash
 
-usage() { echo "./install_apk.sh [-f|-a|-n <amount>|-s <serialNumber> |-d <directory>]"; }
+usage() { echo "./install_apk.sh [-f|-a|-n <amount>|-s <serialNumber> |-d <directory>]"; exit 1; }
 
-MAX_AMOUNT_OF_APPS=10000
+ERROR_FLAG=0
+MAX_AMOUNT_OF_APP=10000
 AMOUNT_APPS_TO_INSTALL=0
 
 # args: apps amount | directory | serial number
 install() {
 	
-
 	echo "amout $1  dir $2 serial $3"
 	exit 0;
-	echo "Installing..."
-	x=$1 # amount
-
+	echo "Installing... on device $3"
+	
+	x=0
 	for i in $( find $2 -name "*.apk" ); do
        		`adb install -dg -s $3 $i`
        		if [ "$((x++))" -ge "$1" ]; then 
@@ -21,11 +21,12 @@ install() {
        		fi  
     	done
 
-echo "You have installed $1 apps"
+	`clear`
+	echo "Installed $1 apps on device $3";
 }
 
 install_On_All_Devices() {
-	echo "install on all"
+	echo "all devices"
 	install $1 $2 $3
 	exit 0
 }
@@ -36,13 +37,13 @@ while getopts ":fas:d:n:" opt; do
 		a="notempty"
 		;;
 	  s)
-		s={OPTARG}
+		s=${OPTARG}
 		;;
 	  d)
-		d={OPTARG}
+		d=${OPTARG}
 		;;
 	  n)
-		n={OPTARG}
+		n=${OPTARG}
 		;;
 	  f)
 		f=$MAX_AMOUNT_OF_APPS
@@ -56,29 +57,27 @@ while getopts ":fas:d:n:" opt; do
 	esac
 done
 
-#check if user gave proper params
-
-correct_flag=1
+#parse input options and args : validate
 
 if [ ! -z "${a}" ] && [ ! -z "${s}" ]; then
 	echo "Install to ALL (-a) or on device with serial number (-s <serialNbr>)" 
-	correct_flag=0
+	ERROR_FLAG=1
 fi
 
-if [ -z "${d}" ] || [ ! -d "${d}" ]; then
+if [[ -z "${d}" ]] || [[ ! -d "${d}" ]]; then
 	echo "Given dir is not a dir/exist or you have not provided -d <dir>"
-	correct_flag=0
+	ERROR_FLAG=1
 fi 
 
 if [ ! -z "${n}" ] && [ ! -z "${f}" ]; then
 	echo "Provide number (-n <amount>) > 0 of apps to install or install all -f" 
-	correct_flag=0
+	ERROR_FLAG=1
 fi
 
-if [ ! -z "${n}" ] && [[ $n -le 0 ]]; then
+if [ ! -z "${n}" ] && [[ ${n} -le 0 ]]; then
 	echo "Install more than 0 apps"
-	correct_flag=0
-else 
+	ERROR_FLAG=1
+elif [ ! -z "${n}" ]; then 
 	AMOUNT_APPS_TO_INSTALL=$n
 fi
 
@@ -86,14 +85,16 @@ if [ ! -z "${f}" ]; then
 	AMOUNT_APPS_TO_INSTALL=$MAX_AMOUNT_OF_APPS 
 fi
 
-if [[ $correct_flag -e 0 ]]; then
+if [[ $ERROR_FLAG -eq 1 ]]; then
 	exit 1
 fi
 
 # main part
 
-if [ ! -z "${a}" ]; then
-	install_On_All_Devices $AMOUNT_APP_TO_INSTALL ${d} ${s}
-elif [ ! -z "${s}" ]; then
-	install $AMOUNT_APP_TO_INSTALL ${d} ${s}
+if [ ! -z "${s}" ]; then
+	install $AMOUNT_APPS_TO_INSTALL ${d} ${s}
+else
+	install_On_All_Devices $AMOUNT_APPS_TO_INSTALL ${d}
 fi
+
+echo "Work is done";
