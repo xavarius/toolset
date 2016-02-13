@@ -1,19 +1,20 @@
 #!/bin/bash
 
-usage() { echo "Usage: apkInstaller [-a|-n <amount> |-s <serialNumber> |-d <directory>]"; exit 1; }
+ERROR_FLAG=0
+MAX_AMOUNT_OF_APP=100000
+AMOUNT_APPS_TO_INSTALL=$MAX_AMOUNT_OF_APP
+
+usage() { echo "Usage: apkInstaller [man|-a|-n <amount> |-s <serialNumber> |-d <directory>]"; exit 1; }
 
 simpleMan() { #todo: add "man" page
 	echo "man page"
 	exit 0;
 }
 
+# trigger simple man page
 if [ "$1" = "man" ]; then
 	simpleMan
 fi
-
-ERROR_FLAG=0
-MAX_AMOUNT_OF_APP=100000
-AMOUNT_APPS_TO_INSTALL=$MAX_AMOUNT_OF_APP
 
 # args: apps amount | directory | serial number
 install() {
@@ -27,6 +28,7 @@ install() {
        		fi
 		((x++))
     	done
+
 	echo "Installed $x apps on device $3";
 }
 
@@ -42,14 +44,14 @@ while getopts ":an:s:d:" OPTION; do
 	  a)
 		a="notempty"
 		;;
-	  s)
-		s=${OPTARG}
-		;;
 	  d)
 		d=${OPTARG}
 		;;
 	  n)
 		n=${OPTARG}
+		;;
+	  s)
+		s=${OPTARG}
 		;;
 	  \?)
 		usage
@@ -60,7 +62,7 @@ while getopts ":an:s:d:" OPTION; do
 	esac
 done
 
-#parse input options and args : validate
+#parse options and args -> validate user input
 
 if [ ! -z "${a}" ] && [ ! -z "${s}" ]; then
 	echo "ERROR: Install to all (-a) or by serial number (-s)." 
