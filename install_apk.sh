@@ -1,9 +1,9 @@
 #!/bin/bash
 
-usage() { echo "./install_apk.sh [-f|-a|-n <amount>|-s <serialNumber> |-d <directory>]"; exit 1; }
+usage() { echo "apkInstaller [-a|-f|-n <amount> |-s <serialNumber> |-d <directory>]"; exit 1; }
 
 ERROR_FLAG=0
-MAX_AMOUNT_OF_APP=10000
+MAX_AMOUNT_OF_APP=100000
 AMOUNT_APPS_TO_INSTALL=0
 
 # args: apps amount | directory | serial number
@@ -25,14 +25,14 @@ install() {
 	echo "Installed $1 apps on device $3";
 }
 
+# args: apps amout | directory
 install_On_All_Devices() {
 	echo "all devices"
 	install $1 $2 $3
-	exit 0
 }
 
-while getopts ":fas:d:n:" opt; do
-	case $opt in
+while getopts ":afn:s:d:" OPTION; do
+	case $OPTION in
 	  a)
 		a="notempty"
 		;;
@@ -98,3 +98,4 @@ else
 fi
 
 echo "Work is done";
+exit 0
