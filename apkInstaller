@@ -22,14 +22,20 @@ install() {
 	
 	x=1
 	for i in $( find $2 -name "*.apk" ); do
-       		adb -s $3 install -dg $i
+		adb -s $3 install -dg $i
        		if [ $x -ge "$1" ]; then
           		break;
        		fi
 		((x++))
     	done
 
-	echo "Installed $x apps on device $3";
+	if [ -z "$i" ]; then
+		echo "There is no APK files in provided directory"
+		exit 0;
+	else
+		echo "Installed $((x--)) apps on device $3";
+	fi 
+
 }
 
 # args: apps amout | directory
