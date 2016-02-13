@@ -1,10 +1,19 @@
 #!/bin/bash
 
-usage() { echo "apkInstaller [-a|-f|-n <amount> |-s <serialNumber> |-d <directory>]"; exit 1; }
+usage() { echo "apkInstaller [-a|-n <amount> |-s <serialNumber> |-d <directory>]"; exit 1; }
+
+man() { #todo: add "man" page
+	echo "man page"
+	exit 0;
+}
+
+if [ $1 = "man" ]; then
+	man
+fi
 
 ERROR_FLAG=0
 MAX_AMOUNT_OF_APP=100000
-AMOUNT_APPS_TO_INSTALL=0
+AMOUNT_APPS_TO_INSTALL=$MAX_AMOUNT_OF_APP
 
 # args: apps amount | directory | serial number
 install() {
@@ -31,7 +40,7 @@ install_On_All_Devices() {
 	install $1 $2 $3
 }
 
-while getopts ":afn:s:d:" OPTION; do
+while getopts ":an:s:d:" OPTION; do
 	case $OPTION in
 	  a)
 		a="notempty"
@@ -44,9 +53,6 @@ while getopts ":afn:s:d:" OPTION; do
 		;;
 	  n)
 		n=${OPTARG}
-		;;
-	  f)
-		f=$MAX_AMOUNT_OF_APPS
 		;;
 	  \?)
 		usage
@@ -69,20 +75,11 @@ if [[ -z "${d}" ]] || [[ ! -d "${d}" ]]; then
 	ERROR_FLAG=1
 fi 
 
-if [ ! -z "${n}" ] && [ ! -z "${f}" ]; then
-	echo "Provide number (-n <amount>) > 0 of apps to install or install all -f" 
-	ERROR_FLAG=1
-fi
-
 if [ ! -z "${n}" ] && [[ ${n} -le 0 ]]; then
 	echo "Install more than 0 apps"
 	ERROR_FLAG=1
 elif [ ! -z "${n}" ]; then 
 	AMOUNT_APPS_TO_INSTALL=$n
-fi
-
-if [ ! -z "${f}" ]; then 
-	AMOUNT_APPS_TO_INSTALL=$MAX_AMOUNT_OF_APPS 
 fi
 
 if [[ $ERROR_FLAG -eq 1 ]]; then
