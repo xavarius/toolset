@@ -4,10 +4,23 @@ ERROR_FLAG=0
 MAX_AMOUNT_OF_APP=100000
 AMOUNT_APPS_TO_INSTALL=$MAX_AMOUNT_OF_APP
 
-usage() { echo "Usage: apkInstaller [man|-a|-n <amount> |-s <serialNumber> |-d <directory>]"; exit 1; }
+usage() { echo "Usage: [man] [-a] [-d DIRECTORY] [-n AMOUNT] [-s DEVICE_SERIAL_NUMBER]"; exit 1; }
 
-simpleMan() { #todo: add "man" page
-	echo "man page"
+simpleMan() {
+cat << EOF
+	Usage [man] [-a] [-d DIRECTORY] [-n AMOUNT] [-s DEVICE_SERIAL_NUMBER]
+	
+	Script provides simple way to install APK files on multiple or one device.
+	By default script will install all APK files from working directory (.) on
+	all devices attached to PC.
+	
+	man	display man
+	-a	install on all devices
+	-d	directory in which script will be looking for APK files (including child folders)
+	-n	amount of apps (by default all available apps)
+	-s	device serial number on which apps will be installed
+
+EOF
 	exit 0;
 }
 
