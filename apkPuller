@@ -1,7 +1,8 @@
 # !/bin/bash
 
-mkdir output;
-cd output;
+cd $HOME
+mkdir output
+cd output
 
 x=0
 for SERIAL_NBR in $(adb devices | tail -n +2 | cut -sf 1); do
