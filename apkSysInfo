@@ -1,0 +1,12 @@
+# !/bin/bash
+
+prefix=''
+packages=()
+
+printf "System: "
+adb shell getprop ro.build.display.id
+
+for i in ${packages[@]}; do
+printf $i;
+adb shell dumpsys package "$prefix$i" | grep -i versionName;
+done
