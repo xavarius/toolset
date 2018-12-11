@@ -1,5 +1,7 @@
-Repository contains useful scripts related to Android development.
+Script which supports effective development and dev env set up.
 
 My .gitconfig file with aliases and other useful stuff.
 
-Android Studio settings: settings.jar
+Other ZSH aliases.
+
+Android Studio settings in other repo: https://github.com/xavarius/macOs-androidStudio-Settings
