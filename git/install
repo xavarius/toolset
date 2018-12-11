@@ -1,1 +1,1 @@
-mv .gitconfig $HOME
+cp .gitconfig $HOME
