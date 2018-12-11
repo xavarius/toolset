@@ -1,0 +1,3 @@
+alias c='git commit'
+alias cm='git commit -m'
+
