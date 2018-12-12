@@ -1,3 +1,15 @@
+# shell aliases
+alias ls='ls -la'
+
+
+# git aliases
+alias a='git add'
+alias aa='git add .'
+
 alias c='git commit'
+alias cam='commit --amend --message'
 alias cm='git commit -m'
 
+alias ss='git status'
+
+alias publish='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
