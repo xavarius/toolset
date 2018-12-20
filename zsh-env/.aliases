@@ -16,6 +16,13 @@ alias create='git checkout -b'
 alias cdd='git checkout develop'
 alias cmm='git checkout master'
 
+alias mdev="git merge --no-ff origin/develop"
+
+alias df="git diff"
+
 alias ss='git status'
 
 alias publish='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
+alias pl='git pull'
+
+alias tag="git tag"
