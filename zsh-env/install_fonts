@@ -7,3 +7,5 @@ cd fonts
 cd ..
 rm -rf fonts
 
+
+echo "Please remember to setup powerline (f.ex maslo powerline) based font in iterm -> preferences -> ..."
