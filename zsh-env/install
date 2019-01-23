@@ -5,7 +5,7 @@ sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/to
 cp .aliases $HOME
 
 # append custom configuration to .zshrc file
-#todo
+cat ./.zshrc >> $HOME/.zshrc
 
 # source
 source /$HOME/.zshrc
