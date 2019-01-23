@@ -1,2 +1,11 @@
-cp .zshrc $HOME
+# Install basic ver of on-my-zsh
+sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# setup aliases 
 cp .aliases $HOME
+
+# append custom configuration to .zshrc file
+#todo
+
+# source
+source /$HOME/.zshrc
