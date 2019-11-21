@@ -1,6 +1,6 @@
 # shell aliases
 alias ls='ls -la'
-
+alias please='sudo $(history -p !!)'
 alias helpme='cat ~/.aliases'
 
 # git aliases
@@ -10,13 +10,14 @@ alias aa='git add .'
 alias c='git commit'
 alias cam='git commit --amend --message'
 alias cm='git commit -m'
+alias ca='git commit --amend'
 
 alias ch='git checkout'
 alias create='git checkout -b'
 alias cdd='git checkout develop'
 alias cmm='git checkout master'
 
-alias mdev="git merge --no-ff origin/develop"
+alias mdev="git fetch | git merge --no-ff origin/develop"
 
 alias df="git diff"
 
@@ -26,3 +27,5 @@ alias publish='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
 alias pl='git pull'
 
 alias tag="git tag"
+alias weather="curl wttr.in/wroclaw"
+
