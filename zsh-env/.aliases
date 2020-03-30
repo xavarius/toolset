@@ -25,7 +25,10 @@ alias ss='git status'
 
 alias publish='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 alias pl='git pull'
+alias prune='git fetch --prune'
 
 alias tag="git tag"
+alias rtr="git push --delete origin"
+alias rtl="git tag --delete"
 alias weather="curl wttr.in/wroclaw"
 
