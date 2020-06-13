@@ -4,17 +4,15 @@ sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/to
 # setup aliases 
 cp .aliases $HOME
 
-# append custom configuration to .zshrc file
-cat ./.zshrc >> $HOME/.zshrc
-
 # install fonts required for agnoster theme zsh
 sudo chmod 755 install_fonts
 ./install_fonts
 
-echo "source .aliases" >> $HOME/.zshrc
+# append custom configuration to .zshrc file
+cat ./.zshrc >> $HOME/.zshrc
 
 # source
 source /$HOME/.zshrc
-
+echo "Check if source .aliases was appended"
 echo "Change iTerm color schema to Solarized Dark"
 echo "Change iTerm font to one of the Menlo family"
