@@ -11,7 +11,10 @@ cat ./.zshrc >> $HOME/.zshrc
 sudo chmod 755 install_fonts
 ./install_fonts
 
+echo "source .aliases" >> $HOME/.zshrc
+
 # source
 source /$HOME/.zshrc
 
-
+echo "Change iTerm color schema to Solarized Dark"
+echo "Change iTerm font to one of the Menlo family"
